@@ -17,8 +17,6 @@ function AuthPage() {
 
   const [result, setResult] = useState("");
 
-  const [authSuccess, setAuthSuccess] = useState(false);
-
   const navigate = useNavigate();
 
   const authenticateEmployee = async () => {
@@ -31,22 +29,22 @@ function AuthPage() {
     }
 
     // NO LIVENESS ATTEMPT
-if (!capturedImage) {
+    if (!capturedImage) {
 
-  if (!livenessAttempted) {
+      if (!livenessAttempted) {
 
-    setResult(
-      "Please complete AWS Face Liveness first."
-    );
+        setResult(
+          "Please complete AWS Face Liveness first."
+        );
 
-  } else {
+      } else {
 
-    setResult(livenessMsg);
+        setResult(livenessMsg);
 
-  }
+      }
 
-  return;
-}
+      return;
+    }
 
     try {
 
@@ -67,24 +65,14 @@ if (!capturedImage) {
           res.data.rekognitionid
         );
 
-        localStorage.setItem(
-          "sessionValidUntil",
-          Date.now() + 120000
-        );
-
-        setAuthSuccess(true);
+        // AUTO REDIRECT TO PROFILE
+        navigate("/logs");
 
       } else {
 
         localStorage.removeItem(
           "loggedEmployeeId"
         );
-
-        localStorage.removeItem(
-          "sessionValidUntil"
-        );
-
-        setAuthSuccess(false);
       }
 
     } catch (err) {
@@ -96,12 +84,6 @@ if (!capturedImage) {
       localStorage.removeItem(
         "loggedEmployeeId"
       );
-
-      localStorage.removeItem(
-        "sessionValidUntil"
-      );
-
-      setAuthSuccess(false);
     }
   };
 
@@ -148,16 +130,6 @@ if (!capturedImage) {
           <div className="status-box">
             {result}
           </div>
-
-          {authSuccess && (
-
-            <button
-              onClick={() => navigate("/logs")}
-            >
-              View My Profile Dashboard
-            </button>
-
-          )}
 
         </div>
 

@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 function LogsPage() {
+
   const [profile, setProfile] = useState(null);
+
   const [showAllLogs, setShowAllLogs] = useState(false);
 
   const navigate = useNavigate();
@@ -12,52 +14,37 @@ function LogsPage() {
   useEffect(() => {
 
     const employeeId = localStorage.getItem("loggedEmployeeId");
-    const validUntil = localStorage.getItem("sessionValidUntil");
 
-    // SESSION CHECK
-    if (!employeeId || !validUntil) {
+    // SIMPLE LOGIN CHECK
+    if (!employeeId) {
+
       navigate("/auth");
+
       return;
     }
-
-    const expiryTime = parseInt(validUntil);
-
-    if (Date.now() > expiryTime) {
-      localStorage.removeItem("loggedEmployeeId");
-      localStorage.removeItem("sessionValidUntil");
-      navigate("/auth");
-      return;
-    }
-
-    // AUTO LOGOUT TIMER
-    const remainingTime = expiryTime - Date.now();
-
-    const logoutTimer = setTimeout(() => {
-      localStorage.removeItem("loggedEmployeeId");
-      localStorage.removeItem("sessionValidUntil");
-
-      alert("Session expired. Please authenticate again.");
-
-      navigate("/auth");
-    }, remainingTime);
 
     // FETCH PROFILE
     axios
-      .get(`https://38hp7orgvb.execute-api.us-east-1.amazonaws.com/default/employee/${employeeId}`)
+      .get(
+        `https://38hp7orgvb.execute-api.us-east-1.amazonaws.com/default/employee/${employeeId}`
+      )
       .then((res) => {
+
         if (res.data.success) {
+
           setProfile(res.data);
+
         } else {
+
           navigate("/auth");
         }
       })
       .catch(() => {
+
         localStorage.removeItem("loggedEmployeeId");
-        localStorage.removeItem("sessionValidUntil");
+
         navigate("/auth");
       });
-
-    return () => clearTimeout(logoutTimer);
 
   }, [navigate]);
 
@@ -66,7 +53,7 @@ function LogsPage() {
   const emp = profile.employee;
 
   const formatDate = (raw) => {
-    return new Date(raw).toLocaleString();
+    return new Date(raw).toLocaleString("en-IN");
   };
 
   const getStatusClass = (status) => {
@@ -89,7 +76,8 @@ function LogsPage() {
   ];
 
   const attendancePercent = Math.round(
-    (profile.presentDays / (profile.presentDays + profile.absentDays)) * 100
+    (profile.presentDays /
+      (profile.presentDays + profile.absentDays)) * 100
   );
 
   const shownLogs = showAllLogs
@@ -98,6 +86,7 @@ function LogsPage() {
 
   return (
     <div className="page-container">
+
       <div className="profile-main-card">
 
         <div className="stats-row">
@@ -127,15 +116,19 @@ function LogsPage() {
         <div className="profile-top">
 
           <div className="profile-left">
+
             <img
               src={emp.profileImage}
               alt="profile"
               className="big-profile-pic"
             />
 
-            <h2>{emp.firstName} {emp.lastName}</h2>
+            <h2>
+              {emp.firstName} {emp.lastName}
+            </h2>
 
             <p>{emp.department}</p>
+
           </div>
 
           <div className="profile-right-flex">
@@ -161,7 +154,8 @@ function LogsPage() {
               </p>
 
               <p>
-                <strong>Last Login:</strong> {formatDate(profile.lastLogin)}
+                <strong>Last Login:</strong>{" "}
+                {formatDate(profile.lastLogin)}
               </p>
 
             </div>
@@ -181,8 +175,10 @@ function LogsPage() {
                   dataKey="value"
                   label
                 >
+
                   <Cell fill="#10b981" />
                   <Cell fill="#ef4444" />
+
                 </Pie>
 
                 <Tooltip />
@@ -231,9 +227,13 @@ function LogsPage() {
 
             <button
               className="show-more-btn"
-              onClick={() => setShowAllLogs(!showAllLogs)}
+              onClick={() =>
+                setShowAllLogs(!showAllLogs)
+              }
             >
-              {showAllLogs ? "Show Less" : "Show More"}
+              {showAllLogs
+                ? "Show Less"
+                : "Show More"}
             </button>
 
           )}
@@ -241,6 +241,7 @@ function LogsPage() {
         </div>
 
       </div>
+
     </div>
   );
 }
