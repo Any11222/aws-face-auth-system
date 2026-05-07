@@ -60,18 +60,33 @@ function AuthPage() {
 
       if (res.data.success) {
 
+        // STORE REKOGNITION ID
         localStorage.setItem(
           "loggedEmployeeId",
-          employeeId
+          res.data.rekognitionid
         );
 
-        // AUTO REDIRECT TO PROFILE
-        navigate("/logs");
+        // OPTIONAL SESSION STORAGE
+        localStorage.setItem(
+          "sessionValidUntil",
+          res.data.sessionValidUntil
+        );
+
+        // SMALL DELAY BEFORE REDIRECT
+        setTimeout(() => {
+
+          navigate("/logs");
+
+        }, 500);
 
       } else {
 
         localStorage.removeItem(
           "loggedEmployeeId"
+        );
+
+        localStorage.removeItem(
+          "sessionValidUntil"
         );
       }
 
@@ -83,6 +98,10 @@ function AuthPage() {
 
       localStorage.removeItem(
         "loggedEmployeeId"
+      );
+
+      localStorage.removeItem(
+        "sessionValidUntil"
       );
     }
   };
