@@ -105,26 +105,20 @@ function HomePage() {
 
           </div>
 
-          <div className="architecture-section">
+          <div className="architecture-flow">
+            <div className="arch-box">React Frontend</div>
+            <div className="arrow">↓</div>
 
-            <h2>Cloud Architecture</h2>
+            <div className="arch-box">AWS Amplify Hosting</div>
+            <div className="arrow">↓</div>
 
-            <div className="architecture-flow">
+            <div className="arch-box">API Gateway</div>
+            <div className="arrow">↓</div>
 
-              <div className="arch-box">React Frontend</div>
+            <div className="arch-box">AWS Lambda + FastAPI</div>
+            <div className="arrow">↓</div>
 
-              <div className="arch-arrow">→</div>
-
-              <div className="arch-box">FastAPI Backend</div>
-
-              <div className="arch-arrow">→</div>
-
-              <div className="arch-box">
-                AWS Rekognition + DynamoDB
-              </div>
-
-            </div>
-
+            <div className="arch-box">AWS Rekognition + DynamoDB</div>
           </div>
 
           <div className="metrics-row">
