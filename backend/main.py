@@ -217,65 +217,100 @@ def authenticate_employee(data: AuthRequest):
 @app.get("/employee/{rekognition_id}")
 def get_employee(rekognition_id: str):
 
-    print("SEARCHING FOR:", rekognition_id)
+    try:
 
-    response = employees_table.scan()
+        print("SEARCHING FOR:", rekognition_id)
 
-    print("EMPLOYEES TABLE ITEMS:", response["Items"])
+        response = employees_table.scan()
 
-    employee = None
+        employee = None
 
-    for item in response["Items"]:
+        for item in response["Items"]:
 
-        stored_id = str(
-            item.get("rekognitionid", "")
-        ).strip()
+            stored_id = str(
+                item.get("rekognitionid", "")
+            ).strip()
 
-        incoming_id = str(
-            rekognition_id
-        ).strip()
+            incoming_id = str(
+                rekognition_id
+            ).strip()
 
-        print("COMPARE:")
-        print("STORED:", stored_id)
-        print("INCOMING:", incoming_id)
+            if stored_id == incoming_id:
 
-        if stored_id == incoming_id:
+                employee = item
+                break
 
-            employee = item
-            break
+        if not employee:
 
-    if not employee:
+            print("NO EMPLOYEE FOUND")
 
-        print("NO EMPLOYEE FOUND")
+            return {
+                "success": False,
+                "message": "Employee not found"
+            }
+
+        attendance_response = attendance_table.scan()
+
+        employee_logs = []
+
+        for item in attendance_response["Items"]:
+
+            if str(
+                item.get("rekognitionid", "")
+            ).strip() == incoming_id:
+
+                # SAFE TIME FORMAT CONVERSION
+
+                try:
+
+                    raw_time = item.get(
+                        "timestamp",
+                        ""
+                    )
+
+                    parsed_time = datetime.strptime(
+                        raw_time,
+                        "%d/%m/%Y, %I:%M:%S %p"
+                    )
+
+                    item["formatted_time"] = parsed_time.strftime(
+                        "%d-%m-%Y %I:%M:%S %p"
+                    )
+
+                except Exception as time_error:
+
+                    print(
+                        "TIME FORMAT ERROR:",
+                        time_error
+                    )
+
+                    item["formatted_time"] = item.get(
+                        "timestamp",
+                        "N/A"
+                    )
+
+                employee_logs.append(item)
+
+        employee_logs = sorted(
+            employee_logs,
+            key=lambda x: x["timestamp"],
+            reverse=True
+        )
+
+        return {
+            "success": True,
+            "employee": employee,
+            "logs": employee_logs
+        }
+
+    except Exception as e:
+
+        print("Employee Profile Error:", e)
 
         return {
             "success": False,
-            "message": "Employee not found"
+            "message": str(e)
         }
-
-    attendance_response = attendance_table.scan()
-
-    employee_logs = []
-
-    for item in attendance_response["Items"]:
-
-        if str(
-            item.get("rekognitionid", "")
-        ).strip() == incoming_id:
-
-            employee_logs.append(item)
-
-    employee_logs = sorted(
-        employee_logs,
-        key=lambda x: x["timestamp"],
-        reverse=True
-    )
-
-    return {
-        "success": True,
-        "employee": employee,
-        "logs": employee_logs
-    }
 
 # =========================
 # RESET SYSTEM
