@@ -217,17 +217,36 @@ def authenticate_employee(data: AuthRequest):
 @app.get("/employee/{rekognition_id}")
 def get_employee(rekognition_id: str):
 
+    print("SEARCHING FOR:", rekognition_id)
+
     response = employees_table.scan()
+
+    print("EMPLOYEES TABLE ITEMS:", response["Items"])
 
     employee = None
 
     for item in response["Items"]:
 
-        if item["rekognitionid"] == rekognition_id:
+        stored_id = str(
+            item.get("rekognitionid", "")
+        ).strip()
+
+        incoming_id = str(
+            rekognition_id
+        ).strip()
+
+        print("COMPARE:")
+        print("STORED:", stored_id)
+        print("INCOMING:", incoming_id)
+
+        if stored_id == incoming_id:
+
             employee = item
             break
 
     if not employee:
+
+        print("NO EMPLOYEE FOUND")
 
         return {
             "success": False,
@@ -240,7 +259,9 @@ def get_employee(rekognition_id: str):
 
     for item in attendance_response["Items"]:
 
-        if item["rekognitionid"] == rekognition_id:
+        if str(
+            item.get("rekognitionid", "")
+        ).strip() == incoming_id:
 
             employee_logs.append(item)
 
