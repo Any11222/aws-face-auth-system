@@ -62,7 +62,7 @@ function AuthPage() {
 
         localStorage.setItem(
           "loggedEmployeeId",
-          res.data.rekognitionid
+          employeeId
         );
 
         // AUTO REDIRECT TO PROFILE
