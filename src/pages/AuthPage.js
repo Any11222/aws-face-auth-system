@@ -1,0 +1,170 @@
+import React, { useState } from "react";
+import axios from "axios";
+import WebcamCard from "../components/WebcamCard";
+import { useNavigate } from "react-router-dom";
+
+function AuthPage() {
+
+  const [employeeId, setEmployeeId] = useState("");
+
+  const [capturedImage, setCapturedImage] = useState(null);
+
+  const [livenessPassed, setLivenessPassed] = useState(false);
+
+  const [livenessAttempted, setLivenessAttempted] = useState(false);
+
+  const [livenessMsg, setLivenessMsg] = useState("");
+
+  const [result, setResult] = useState("");
+
+  const [authSuccess, setAuthSuccess] = useState(false);
+
+  const navigate = useNavigate();
+
+  const authenticateEmployee = async () => {
+
+    if (!employeeId) {
+
+      setResult("Please enter Employee ID.");
+
+      return;
+    }
+
+    // NO LIVENESS ATTEMPT
+if (!capturedImage) {
+
+  if (!livenessAttempted) {
+
+    setResult(
+      "Please complete AWS Face Liveness first."
+    );
+
+  } else {
+
+    setResult(livenessMsg);
+
+  }
+
+  return;
+}
+
+    try {
+
+      const res = await axios.post(
+        "https://38hp7orgvb.execute-api.us-east-1.amazonaws.com/default/authenticate",
+        {
+          employeeId: employeeId,
+          image: capturedImage,
+        }
+      );
+
+      setResult(res.data.message);
+
+      if (res.data.success) {
+
+        localStorage.setItem(
+          "loggedEmployeeId",
+          res.data.rekognitionid
+        );
+
+        localStorage.setItem(
+          "sessionValidUntil",
+          Date.now() + 120000
+        );
+
+        setAuthSuccess(true);
+
+      } else {
+
+        localStorage.removeItem(
+          "loggedEmployeeId"
+        );
+
+        localStorage.removeItem(
+          "sessionValidUntil"
+        );
+
+        setAuthSuccess(false);
+      }
+
+    } catch (err) {
+
+      setResult(
+        "Authentication server error."
+      );
+
+      localStorage.removeItem(
+        "loggedEmployeeId"
+      );
+
+      localStorage.removeItem(
+        "sessionValidUntil"
+      );
+
+      setAuthSuccess(false);
+    }
+  };
+
+  return (
+
+    <div className="page-container">
+
+      <div className="split-card">
+
+        <div className="left-panel">
+
+          <WebcamCard
+            employeeId={employeeId}
+            setCapturedImage={setCapturedImage}
+            capturedImage={capturedImage}
+            setLivenessPassed={setLivenessPassed}
+            setLivenessMsg={setLivenessMsg}
+            setLivenessAttempted={setLivenessAttempted}
+          />
+
+        </div>
+
+        <div className="right-panel">
+
+          <h2>Employee Authentication</h2>
+
+          <input
+            type="text"
+            placeholder="Enter Employee ID"
+            value={employeeId}
+            onChange={(e) =>
+              setEmployeeId(e.target.value)
+            }
+          />
+
+          <div className="live-status">
+            {livenessMsg}
+          </div>
+
+          <button onClick={authenticateEmployee}>
+            Authenticate Employee
+          </button>
+
+          <div className="status-box">
+            {result}
+          </div>
+
+          {authSuccess && (
+
+            <button
+              onClick={() => navigate("/logs")}
+            >
+              View My Profile Dashboard
+            </button>
+
+          )}
+
+        </div>
+
+      </div>
+
+    </div>
+  );
+}
+
+export default AuthPage;
