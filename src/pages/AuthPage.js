@@ -58,6 +58,8 @@ function AuthPage() {
 
       setResult(res.data.message);
 
+      console.log(res.data);
+
       if (res.data.success) {
 
         // STORE REKOGNITION ID
