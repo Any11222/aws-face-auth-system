@@ -7,6 +7,10 @@ import uuid
 from datetime import datetime, timedelta
 from collections import defaultdict
 from mangum import Mangum
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 app = FastAPI()
 
@@ -237,7 +241,7 @@ def authenticate(data: SecureAuthRequest):
             }
 
     except Exception as e:
-        print("Auth Error:", e)
+        logger.error(f"Auth Error: {str(e)}")
         return {
             "success": False,
             "message": "Authentication error."
