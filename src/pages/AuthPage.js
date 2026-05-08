@@ -17,6 +17,8 @@ function AuthPage() {
 
   const [result, setResult] = useState("");
 
+  const [authSuccess, setAuthSuccess] = useState(false);
+
   const navigate = useNavigate();
 
   const authenticateEmployee = async () => {
@@ -74,14 +76,11 @@ function AuthPage() {
           res.data.sessionValidUntil
         );
 
-        // SMALL DELAY BEFORE REDIRECT
-        setTimeout(() => {
-
-          navigate("/logs");
-
-        }, 500);
+        setAuthSuccess(true);
 
       } else {
+
+        setAuthSuccess(false);
 
         localStorage.removeItem(
           "loggedEmployeeId"
@@ -97,6 +96,8 @@ function AuthPage() {
       setResult(
         "Authentication server error."
       );
+
+      setAuthSuccess(false);
 
       localStorage.removeItem(
         "loggedEmployeeId"
@@ -151,6 +152,19 @@ function AuthPage() {
           <div className="status-box">
             {result}
           </div>
+
+          {authSuccess && (
+
+            <button
+              onClick={() => navigate("/logs")}
+              style={{
+                marginTop: "15px",
+              }}
+            >
+              Go to Dashboard
+            </button>
+
+          )}
 
         </div>
 
