@@ -5,7 +5,9 @@ body {
   color: white;
 }
 
-/* NAVBAR */
+/* =========================
+   NAVBAR
+========================= */
 
 .navbar {
   background: #020617;
@@ -35,7 +37,9 @@ body {
   font-size: 15px;
 }
 
-/* COMMON */
+/* =========================
+   COMMON LAYOUT
+========================= */
 
 .page-container {
   display: flex;
@@ -46,7 +50,7 @@ body {
 }
 
 button {
-  margin-top: 22px;
+  margin-top: 18px;
   padding: 13px 22px;
   background: #2563eb;
   border: none;
@@ -59,8 +63,12 @@ button {
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0px 0px 18px rgba(37,99,235,0.45);
+  box-shadow: 0px 0px 18px rgba(37, 99, 235, 0.45);
 }
+
+/* =========================
+   COMMON CARD STYLES
+========================= */
 
 .status-box,
 .live-status,
@@ -74,7 +82,7 @@ button:hover {
 }
 
 .status-box {
-  margin-top: 18px;
+  margin-top: 16px;
   padding: 12px 16px;
   min-height: 20px;
 }
@@ -87,8 +95,9 @@ button:hover {
   min-height: 16px;
 }
 
-
-/* AUTH / REGISTER */
+/* =========================
+   AUTH / REGISTER
+========================= */
 
 .split-card {
   width: 1450px;
@@ -96,8 +105,8 @@ button:hover {
   background: #111827;
   border-radius: 24px;
   display: flex;
-  box-shadow: 0px 0px 30px rgba(0,0,0,0.35);
   overflow: hidden;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.35);
 }
 
 .left-panel,
@@ -109,15 +118,62 @@ button:hover {
   justify-content: center;
 }
 
-.right-panel input {
-  padding: 12px;
-  margin-top: 12px;
-  border-radius: 10px;
-  border: none;
-  font-size: 14px;
+.auth-panel {
+  justify-content: center;
 }
 
-/* CAMERA */
+.auth-title {
+  margin-bottom: 28px;
+}
+
+.primary-btn,
+.dashboard-btn {
+  margin-top: 18px;
+}
+
+.auth-status-box {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* =========================
+   FORM INPUTS
+========================= */
+
+.right-panel input {
+  padding: 14px;
+  margin-top: 0;
+  border-radius: 12px;
+  border: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.register-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  width: 100%;
+}
+
+.full-width-date {
+  grid-column: 1 / span 2;
+}
+
+.date-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* =========================
+   CAMERA / LIVENESS
+========================= */
 
 .camera-panel,
 .aws-detector-wrapper {
@@ -145,8 +201,20 @@ button:hover {
   justify-content: center;
   align-items: center;
   margin: auto;
-  box-shadow: inset 0 0 18px rgba(255,255,255,0.03);
   padding: 10px;
+  box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.03);
+}
+
+.camera-status {
+  width: 520px;
+  min-height: 42px;
+  margin: 16px auto 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 16px;
+  box-sizing: border-box;
 }
 
 .webcam-view {
@@ -175,7 +243,7 @@ button:hover {
   position: absolute;
   bottom: 12px;
   right: 12px;
-  background: rgba(16,185,129,0.92);
+  background: rgba(16, 185, 129, 0.92);
   color: white;
   padding: 6px 12px;
   border-radius: 10px;
@@ -183,7 +251,24 @@ button:hover {
   font-size: 12px;
 }
 
-/* PROFILE PAGE */
+/* =========================
+   SECURITY INFO
+========================= */
+
+.security-info {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  opacity: 0.78;
+  line-height: 1.8;
+  font-size: 14px;
+  width: 100%;
+}
+
+/* =========================
+   PROFILE PAGE
+========================= */
 
 .profile-main-card {
   width: 1280px;
@@ -191,7 +276,7 @@ button:hover {
   background: #111827;
   border-radius: 24px;
   padding: 35px;
-  box-shadow: 0px 0px 30px rgba(0,0,0,0.35);
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.35);
 }
 
 .stats-row {
@@ -270,7 +355,9 @@ button:hover {
   color: #60a5fa;
 }
 
-/* HISTORY */
+/* =========================
+   HISTORY SECTION
+========================= */
 
 .history-section {
   margin-top: 35px;
@@ -322,7 +409,9 @@ button:hover {
   border-left: 5px solid #f59e0b;
 }
 
-/* HOMEPAGE */
+/* =========================
+   HOMEPAGE
+========================= */
 
 .homepage-wrapper {
   width: 100%;
@@ -336,7 +425,7 @@ button:hover {
   background: #111827;
   border-radius: 28px;
   text-align: center;
-  box-shadow: 0px 0px 30px rgba(0,0,0,0.35);
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.35);
 }
 
 .system-status-row {
@@ -395,8 +484,8 @@ button:hover {
 .feature-card {
   padding: 28px;
   text-align: left;
-  transition: 0.25s;
   min-height: 120px;
+  transition: 0.25s;
 }
 
 .feature-card:hover {
@@ -416,7 +505,81 @@ button:hover {
   line-height: 1.6;
 }
 
-/* ARCHITECTURE */
+/* =========================
+   RESET POPUP
+========================= */
+
+.reset-popup-box {
+  width: 340px;
+  margin: 24px auto 0 auto;
+  background: #1e293b;
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.35);
+  animation: fadeInPopup 0.2s ease;
+}
+
+.reset-password-input {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.reset-popup-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.confirm-reset-btn,
+.cancel-reset-btn {
+  flex: 1;
+  margin-top: 0;
+}
+
+.confirm-reset-btn {
+  background: #dc2626;
+}
+
+.confirm-reset-btn:hover {
+  box-shadow: 0 0 16px rgba(220,38,38,0.45);
+}
+
+.cancel-reset-btn {
+  background: #334155;
+}
+
+.cancel-reset-btn:hover {
+  box-shadow: 0 0 16px rgba(51,65,85,0.45);
+}
+
+.reset-error-text {
+  color: #fca5a5;
+  text-align: center;
+  font-size: 13px;
+}
+
+@keyframes fadeInPopup {
+
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   ARCHITECTURE
+========================= */
 
 .architecture-section {
   margin-top: 60px;
@@ -429,33 +592,59 @@ button:hover {
 
 .architecture-flow {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 50px;
+  margin-bottom: 40px;
 }
 
 .arch-box {
-  background: #2563eb;
-  padding: 18px 26px;
-  border-radius: 16px;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  padding: 16px 35px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 18px;
+  min-width: 320px;
+  text-align: center;
+  box-shadow: 0 0 18px rgba(37, 99, 235, 0.35);
+  transition: 0.3s ease;
+}
+
+.arch-box:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.5);
+}
+
+.arch-arrow,
+.arrow {
+  color: #60a5fa;
+  font-size: 28px;
   font-weight: bold;
-  min-width: 220px;
 }
 
 .arch-arrow {
-  font-size: 28px;
-  color: #60a5fa;
   animation: pulseArrow 1.5s infinite;
 }
 
 @keyframes pulseArrow {
-  0% { opacity: 0.4; }
-  50% { opacity: 1; }
-  100% { opacity: 0.4; }
+  0% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.4;
+  }
 }
 
-/* METRICS */
+/* =========================
+   METRICS
+========================= */
 
 .metrics-row {
   margin-top: 55px;
@@ -490,120 +679,9 @@ button:hover {
   font-size: 14px;
 }
 
-.architecture-flow {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  margin-top: 50px;
-  margin-bottom: 40px;
-}
-
-.arch-box {
-  background: linear-gradient(135deg, #2563eb, #1e40af);
-  color: white;
-  padding: 16px 35px;
-  border-radius: 14px;
-  font-weight: 700;
-  font-size: 18px;
-  min-width: 320px;
-  text-align: center;
-  box-shadow: 0 0 18px rgba(37, 99, 235, 0.35);
-  transition: 0.3s ease;
-}
-
-.arch-box:hover {
-  transform: scale(1.04);
-  box-shadow: 0 0 24px rgba(59, 130, 246, 0.5);
-}
-
-.arrow {
-  color: #60a5fa;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-/* AUTH / REGISTER REFINEMENT */
-
-.auth-panel {
-  justify-content: center;
-}
-
-.auth-title {
-  margin-bottom: 28px;
-}
-
-.camera-status {
-  width: 520px;
-  min-height: 42px;
-  margin: 16px auto 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-
-.auth-status-box {
-  min-height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 16px;
-}
-
-.primary-btn {
-  margin-top: 18px;
-}
-
-.dashboard-btn {
-  margin-top: 18px;
-}
-
-.security-info {
-  margin-top: 28px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  text-align: center;
-  opacity: 0.78;
-  line-height: 1.8;
-  font-size: 14px;
-  width: 100%;
-}
-
-.register-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  width: 100%;
-}
-
-.full-width-date {
-  grid-column: 1 / span 2;
-}
-
-.date-label {
-  display: block;
-  margin-bottom: 8px;
-  color: #94a3b8;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* BETTER INPUT SPACING */
-
-.right-panel input {
-  padding: 14px;
-  margin-top: 0;
-  border-radius: 12px;
-  border: none;
-  font-size: 14px;
-  box-sizing: border-box;
-}
-
-/* RESPONSIVE SUPPORT */
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media (max-width: 1100px) {
 
@@ -619,11 +697,7 @@ button:hover {
     box-sizing: border-box;
   }
 
-  .camera-frame {
-    width: 100%;
-    max-width: 520px;
-  }
-
+  .camera-frame,
   .camera-status {
     width: 100%;
     max-width: 520px;

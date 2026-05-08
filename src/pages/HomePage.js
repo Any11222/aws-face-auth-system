@@ -6,21 +6,44 @@ function HomePage() {
 
   const [resetMsg, setResetMsg] = useState("");
 
+  const [showResetPopup, setShowResetPopup] = useState(false);
+
+  const [resetPassword, setResetPassword] = useState("");
+
+  const [resetError, setResetError] = useState("");
+
+  // HARDCODED ADMIN RESET PASSWORD
+  const ADMIN_RESET_PASSWORD = "remove";
+
   const handleReset = async () => {
 
-    const confirmReset = window.confirm(
-      "Are you sure? This will permanently delete all employees, logs and Rekognition faces."
-    );
+    if (resetPassword !== ADMIN_RESET_PASSWORD) {
 
-    if (!confirmReset) return;
+      setResetError("Incorrect admin password.");
 
-    const res = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/reset-system`
-    );
+      return;
+    }
 
-    setResetMsg(res.data.message);
+    try {
 
-    localStorage.removeItem("loggedEmployeeId");
+      const res = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/reset-system`
+      );
+
+      setResetMsg(res.data.message);
+
+      localStorage.removeItem("loggedEmployeeId");
+
+      setShowResetPopup(false);
+
+      setResetPassword("");
+
+      setResetError("");
+
+    } catch (err) {
+
+      setResetError("Failed to reset system.");
+    }
   };
 
   return (
@@ -106,19 +129,35 @@ function HomePage() {
           </div>
 
           <div className="architecture-flow">
-            <div className="arch-box">React Frontend</div>
+
+            <div className="arch-box">
+              React Frontend
+            </div>
+
             <div className="arrow">↓</div>
 
-            <div className="arch-box">AWS Amplify Hosting</div>
+            <div className="arch-box">
+              AWS Amplify Hosting
+            </div>
+
             <div className="arrow">↓</div>
 
-            <div className="arch-box">API Gateway</div>
+            <div className="arch-box">
+              API Gateway
+            </div>
+
             <div className="arrow">↓</div>
 
-            <div className="arch-box">AWS Lambda + FastAPI</div>
+            <div className="arch-box">
+              AWS Lambda + FastAPI
+            </div>
+
             <div className="arrow">↓</div>
 
-            <div className="arch-box">AWS Rekognition + DynamoDB</div>
+            <div className="arch-box">
+              AWS Rekognition + DynamoDB
+            </div>
+
           </div>
 
           <div className="metrics-row">
@@ -137,17 +176,79 @@ function HomePage() {
 
           </div>
 
-          <button
-            className="reset-btn secondary-reset-btn"
-            onClick={handleReset}
-          >
-            Reset Cloud Test Data
-          </button>
+          {!showResetPopup ? (
+
+            <button
+              className="reset-btn secondary-reset-btn"
+              onClick={() => {
+
+                setShowResetPopup(true);
+
+                setResetMsg("");
+
+                setResetError("");
+              }}
+            >
+              Reset Cloud Test Data
+            </button>
+
+          ) : (
+
+            <div className="reset-popup-box">
+
+              <input
+                type="password"
+                placeholder="Enter admin password"
+                value={resetPassword}
+                onChange={(e) =>
+                  setResetPassword(e.target.value)
+                }
+                className="reset-password-input"
+              />
+
+              <div className="reset-popup-buttons">
+
+                <button
+                  className="confirm-reset-btn"
+                  onClick={handleReset}
+                >
+                  Confirm Reset
+                </button>
+
+                <button
+                  className="cancel-reset-btn"
+                  onClick={() => {
+
+                    setShowResetPopup(false);
+
+                    setResetPassword("");
+
+                    setResetError("");
+                  }}
+                >
+                  Cancel
+                </button>
+
+              </div>
+
+              {resetError && (
+
+                <div className="reset-error-text">
+                  {resetError}
+                </div>
+
+              )}
+
+            </div>
+
+          )}
 
           {resetMsg && (
+
             <div className="status-box">
               {resetMsg}
             </div>
+
           )}
 
           <div className="homepage-footer">
