@@ -30,6 +30,7 @@ function AuthPage() {
       return;
     }
 
+    // NO LIVENESS COMPLETED
     if (!capturedImage) {
 
       if (!livenessAttempted) {
@@ -63,14 +64,20 @@ function AuthPage() {
 
       if (res.data.success) {
 
+        // STORE EMPLOYEE SESSION ID
         localStorage.setItem(
           "loggedEmployeeId",
           res.data.rekognitionid
         );
 
+        // CREATE SAFE 2 MINUTE SESSION
+        const sessionExpiry = new Date(
+          Date.now() + 2 * 60 * 1000
+        ).toISOString();
+
         localStorage.setItem(
           "sessionValidUntil",
-          res.data.sessionValidUntil
+          sessionExpiry
         );
 
         setAuthSuccess(true);
