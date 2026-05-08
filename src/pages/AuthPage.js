@@ -49,7 +49,7 @@ function AuthPage() {
     try {
 
       const res = await axios.post(
-        `${process.env.REACT_APP_API_BASE}/authenticate"/authenticate`,
+        `${process.env.REACT_APP_API_URL}/authenticate"/authenticate`,
         {
           employeeId: employeeId,
           image: capturedImage,

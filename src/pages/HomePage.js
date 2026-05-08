@@ -15,7 +15,7 @@ function HomePage() {
     if (!confirmReset) return;
 
     const res = await axios.delete(
-      `${process.env.REACT_APP_API_BASE}/reset-system`
+      `${process.env.REACT_APP_API_URL}/reset-system`
     );
 
     setResetMsg(res.data.message);

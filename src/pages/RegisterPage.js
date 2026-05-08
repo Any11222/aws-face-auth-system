@@ -35,7 +35,7 @@ function RegisterPage() {
       return;
     }
 
-    const res = await axios.post(`${process.env.REACT_APP_API_BASE}/register`, {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/register`, {
       image: capturedImage,
       employeeId,
       firstName,

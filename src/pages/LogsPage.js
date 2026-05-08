@@ -26,7 +26,7 @@ function LogsPage() {
     // FETCH PROFILE
     axios
       .get(
-        `${process.env.REACT_APP_API_BASE}/employee/${employeeId}`
+        `${process.env.REACT_APP_API_URL}/employee/${employeeId}`
       )
       .then((res) => {
 
