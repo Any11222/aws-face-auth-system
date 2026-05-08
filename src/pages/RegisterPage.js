@@ -35,7 +35,7 @@ function RegisterPage() {
       return;
     }
 
-    const res = await axios.post("https://38hp7orgvb.execute-api.us-east-1.amazonaws.com/default/register", {
+    const res = await axios.post(`${process.env.REACT_APP_API_BASE}/register`, {
       image: capturedImage,
       employeeId,
       firstName,

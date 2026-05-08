@@ -15,7 +15,7 @@ function HomePage() {
     if (!confirmReset) return;
 
     const res = await axios.delete(
-      "https://38hp7orgvb.execute-api.us-east-1.amazonaws.com/default/reset-system"
+      `${process.env.REACT_APP_API_BASE}/reset-system`
     );
 
     setResetMsg(res.data.message);

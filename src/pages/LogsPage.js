@@ -26,7 +26,7 @@ function LogsPage() {
     // FETCH PROFILE
     axios
       .get(
-        `https://38hp7orgvb.execute-api.us-east-1.amazonaws.com/default/employee/${employeeId}`
+        `${process.env.REACT_APP_API_BASE}/employee/${employeeId}`
       )
       .then((res) => {
 

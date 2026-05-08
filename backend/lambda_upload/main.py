@@ -361,7 +361,17 @@ def reset_system():
             "success": False,
             "message": "Reset failed."
         }
+@app.get("")
 @app.get("/")
 def home():
-    return {"message": "API working"}   
-handler = Mangum(app)
+    return {"message": "API working"} 
+
+@app.get("/test")
+def test():
+    return {"message": "Real routes working"}
+
+handler = Mangum(
+    app,
+    lifespan="off",
+    api_gateway_base_path="/default"
+)

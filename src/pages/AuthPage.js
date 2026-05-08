@@ -49,7 +49,7 @@ function AuthPage() {
     try {
 
       const res = await axios.post(
-        "https://38hp7orgvb.execute-api.us-east-1.amazonaws.com/default/authenticate",
+        `${process.env.REACT_APP_API_BASE}/authenticate"/authenticate`,
         {
           employeeId: employeeId,
           image: capturedImage,

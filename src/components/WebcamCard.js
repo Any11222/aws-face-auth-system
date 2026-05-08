@@ -34,7 +34,7 @@ function WebcamCard({
     );
 
     const res = await axios.post(
-      "https://38hp7orgvb.execute-api.us-east-1.amazonaws.com/default/start-liveness"
+      `${process.env.REACT_APP_API_BASE}/start-liveness`
     );
 
     if (res.data.sessionId) {
@@ -61,7 +61,7 @@ function WebcamCard({
     );
 
     const result = await axios.get(
-      `https://38hp7orgvb.execute-api.us-east-1.amazonaws.com/default/liveness-result/${sessionId}`
+      `${process.env.REACT_APP_API_BASE}/liveness-result/${sessionId}`
     );
 
     if (result.data.success) {
@@ -101,7 +101,7 @@ function WebcamCard({
         try {
 
           await axios.post(
-            `https://38hp7orgvb.execute-api.us-east-1.amazonaws.com/default/report-liveness-failure/${employeeId}`
+            `${process.env.REACT_APP_API_BASE}/report-liveness-failure/${employeeId}`
           );
 
         } catch (err) {
