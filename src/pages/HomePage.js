@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -12,8 +12,44 @@ function HomePage() {
 
   const [resetError, setResetError] = useState("");
 
+  const [systemHealth, setSystemHealth] = useState({
+    backend: null,
+    rekognition: null,
+    dynamodb: null,
+  });
+
   // HARDCODED ADMIN RESET PASSWORD
   const ADMIN_RESET_PASSWORD = "remove";
+
+  useEffect(() => {
+
+    const checkSystemHealth = async () => {
+
+      try {
+
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/health`
+        );
+
+        setSystemHealth({
+          backend: res.data.backend,
+          rekognition: res.data.rekognition,
+          dynamodb: res.data.dynamodb,
+        });
+
+      } catch (err) {
+
+        setSystemHealth({
+          backend: false,
+          rekognition: false,
+          dynamodb: false,
+        });
+      }
+    };
+
+    checkSystemHealth();
+
+  }, []);
 
   const handleReset = async () => {
 
@@ -56,16 +92,46 @@ function HomePage() {
 
           <div className="system-status-row">
 
-            <div className="system-status active-status">
-              ● AWS Rekognition Connected
+            <div
+              className={`system-status ${
+                systemHealth.rekognition
+                  ? "active-status"
+                  : "inactive-status"
+              }`}
+            >
+              ● AWS Rekognition {
+                systemHealth.rekognition
+                  ? "Connected"
+                  : "Offline"
+              }
             </div>
 
-            <div className="system-status active-status">
-              ● DynamoDB Active
+            <div
+              className={`system-status ${
+                systemHealth.dynamodb
+                  ? "active-status"
+                  : "inactive-status"
+              }`}
+            >
+              ● DynamoDB {
+                systemHealth.dynamodb
+                  ? "Active"
+                  : "Offline"
+              }
             </div>
 
-            <div className="system-status active-status">
-              ● Anti-Spoof Protection Enabled
+            <div
+              className={`system-status ${
+                systemHealth.backend
+                  ? "active-status"
+                  : "inactive-status"
+              }`}
+            >
+              ● API Gateway {
+              systemHealth.backend
+                ? "Online"
+                : "Offline"
+}
             </div>
 
           </div>
@@ -171,7 +237,7 @@ function HomePage() {
             </div>
 
             <div className="metric-item">
-              Anti-Spoof AI Enabled
+              AI Cloud Infrastructure
             </div>
 
           </div>

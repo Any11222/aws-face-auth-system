@@ -332,6 +332,30 @@ def get_employee_profile(rekognitionid: str):
         print("Employee Profile Error:", e)
         return {"success": False}
 
+@app.get("/health")
+def health_check():
+
+    rekognition_ok = False
+    dynamodb_ok = False
+    backend_ok = True
+
+    try:
+        rekognition.list_collections(MaxResults=1)
+        rekognition_ok = True
+    except Exception as e:
+        print("Rekognition Health Error:", e)
+
+    try:
+        dynamodb.meta.client.list_tables(Limit=1)
+        dynamodb_ok = True
+    except Exception as e:
+        print("DynamoDB Health Error:", e)
+
+    return {
+        "backend": backend_ok,
+        "rekognition": rekognition_ok,
+        "dynamodb": dynamodb_ok
+    }
 
 @app.delete("/reset-system")
 def reset_system():

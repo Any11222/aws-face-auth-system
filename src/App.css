@@ -454,6 +454,10 @@ button:hover {
   color: #22c55e;
 }
 
+.inactive-status {
+  color: #ef4444;
+}
+
 .hero-title {
   max-width: 900px;
   margin: auto;
