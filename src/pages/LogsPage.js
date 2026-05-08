@@ -52,21 +52,61 @@ function LogsPage() {
 
   const emp = profile.employee;
 
+  // SAFE IST FORMATTER
   const formatDate = (raw) => {
-    return new Date(raw).toLocaleString("en-IN");
+
+    if (!raw) return "N/A";
+
+    return new Date(raw).toLocaleString(
+      "en-IN",
+      {
+        timeZone: "Asia/Kolkata",
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      }
+    );
+  };
+
+  // SAFE DATE FORMAT FOR JOINING DATE
+  const formatJoiningDate = (raw) => {
+
+    if (!raw) return "N/A";
+
+    return new Date(raw).toLocaleDateString(
+      "en-IN",
+      {
+        timeZone: "Asia/Kolkata",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }
+    );
   };
 
   const getStatusClass = (status) => {
+
     if (status === "SUCCESS") return "log-success";
+
     if (status === "FAILED") return "log-failed";
+
     if (status === "FAILED_LIVENESS") return "log-spoof";
+
     return "";
   };
 
   const getStatusLabel = (status) => {
+
     if (status === "SUCCESS") return "AUTH SUCCESS";
+
     if (status === "FAILED") return "FACE MISMATCH";
+
     if (status === "FAILED_LIVENESS") return "SPOOF DETECTED";
+
     return status;
   };
 
@@ -85,6 +125,7 @@ function LogsPage() {
     : profile.logs.slice(0, 5);
 
   return (
+
     <div className="page-container">
 
       <div className="profile-main-card">
@@ -92,23 +133,35 @@ function LogsPage() {
         <div className="stats-row">
 
           <div className="stat-box">
+
             <h3>{profile.totalAuthentications}</h3>
+
             <p>Total Authentications</p>
+
           </div>
 
           <div className="stat-box">
+
             <h3>{profile.monthlyAttendance}</h3>
+
             <p>Present Days This Month</p>
+
           </div>
 
           <div className="stat-box">
+
             <h3>{emp.accountStatus}</h3>
+
             <p>Account Status</p>
+
           </div>
 
           <div className="stat-box">
+
             <h3>{emp.failedAttempts}</h3>
+
             <p>Failed Attempts</p>
+
           </div>
 
         </div>
@@ -150,7 +203,8 @@ function LogsPage() {
               </p>
 
               <p>
-                <strong>Joining Date:</strong> {emp.joiningDate}
+                <strong>Joining Date:</strong>{" "}
+                {formatJoiningDate(emp.joiningDate)}
               </p>
 
               <p>
@@ -177,11 +231,13 @@ function LogsPage() {
                 >
 
                   <Cell fill="#10b981" />
+
                   <Cell fill="#ef4444" />
 
                 </Pie>
 
                 <Tooltip />
+
                 <Legend />
 
               </PieChart>
