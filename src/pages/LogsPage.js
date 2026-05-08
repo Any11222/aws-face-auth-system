@@ -13,10 +13,39 @@ function LogsPage() {
 
   useEffect(() => {
 
-    const employeeId = localStorage.getItem("loggedEmployeeId");
+    const employeeId = localStorage.getItem(
+      "loggedEmployeeId"
+    );
 
-    // SIMPLE LOGIN CHECK
-    if (!employeeId) {
+    const sessionValidUntil = localStorage.getItem(
+      "sessionValidUntil"
+    );
+
+    // NO LOGIN
+    if (!employeeId || !sessionValidUntil) {
+
+      navigate("/auth");
+
+      return;
+    }
+
+    // STRICT SESSION VALIDATION
+    const currentTime = Date.now();
+
+    const expiryTime = new Date(
+      sessionValidUntil
+    ).getTime();
+
+    // SESSION EXPIRED
+    if (currentTime > expiryTime) {
+
+      localStorage.removeItem(
+        "loggedEmployeeId"
+      );
+
+      localStorage.removeItem(
+        "sessionValidUntil"
+      );
 
       navigate("/auth");
 
@@ -36,12 +65,26 @@ function LogsPage() {
 
         } else {
 
+          localStorage.removeItem(
+            "loggedEmployeeId"
+          );
+
+          localStorage.removeItem(
+            "sessionValidUntil"
+          );
+
           navigate("/auth");
         }
       })
       .catch(() => {
 
-        localStorage.removeItem("loggedEmployeeId");
+        localStorage.removeItem(
+          "loggedEmployeeId"
+        );
+
+        localStorage.removeItem(
+          "sessionValidUntil"
+        );
 
         navigate("/auth");
       });
@@ -52,17 +95,16 @@ function LogsPage() {
 
   const emp = profile.employee;
 
-  // SAFE IST FORMATTER
+  // IST FORMATTER
   const formatDate = (raw) => {
 
     if (!raw) return "N/A";
 
-    // CREATE DATE OBJECT
     const utcDate = new Date(raw);
 
-    // ADD IST OFFSET (5 HOURS 30 MINUTES)
     const istDate = new Date(
-      utcDate.getTime() + (5.5 * 60 * 60 * 1000)
+      utcDate.getTime() +
+      (5.5 * 60 * 60 * 1000)
     );
 
     return istDate.toLocaleString(
@@ -79,7 +121,7 @@ function LogsPage() {
     );
   };
 
-  // SAFE DATE FORMAT FOR JOINING DATE
+  // JOINING DATE FORMAT
   const formatJoiningDate = (raw) => {
 
     if (!raw) return "N/A";
@@ -97,34 +139,51 @@ function LogsPage() {
 
   const getStatusClass = (status) => {
 
-    if (status === "SUCCESS") return "log-success";
+    if (status === "SUCCESS")
+      return "log-success";
 
-    if (status === "FAILED") return "log-failed";
+    if (status === "FAILED")
+      return "log-failed";
 
-    if (status === "FAILED_LIVENESS") return "log-spoof";
+    if (status === "FAILED_LIVENESS")
+      return "log-spoof";
 
     return "";
   };
 
   const getStatusLabel = (status) => {
 
-    if (status === "SUCCESS") return "AUTH SUCCESS";
+    if (status === "SUCCESS")
+      return "AUTH SUCCESS";
 
-    if (status === "FAILED") return "FACE MISMATCH";
+    if (status === "FAILED")
+      return "FACE MISMATCH";
 
-    if (status === "FAILED_LIVENESS") return "SPOOF DETECTED";
+    if (status === "FAILED_LIVENESS")
+      return "SPOOF DETECTED";
 
     return status;
   };
 
   const pieData = [
-    { name: "Present", value: profile.presentDays },
-    { name: "Absent", value: profile.absentDays },
+    {
+      name: "Present",
+      value: profile.presentDays,
+    },
+    {
+      name: "Absent",
+      value: profile.absentDays,
+    },
   ];
 
   const attendancePercent = Math.round(
-    (profile.presentDays /
-      (profile.presentDays + profile.absentDays)) * 100
+    (
+      profile.presentDays /
+      (
+        profile.presentDays +
+        profile.absentDays
+      )
+    ) * 100
   );
 
   const shownLogs = showAllLogs
@@ -140,35 +199,27 @@ function LogsPage() {
         <div className="stats-row">
 
           <div className="stat-box">
-
-            <h3>{profile.totalAuthentications}</h3>
-
+            <h3>
+              {profile.totalAuthentications}
+            </h3>
             <p>Total Authentications</p>
-
           </div>
 
           <div className="stat-box">
-
-            <h3>{profile.monthlyAttendance}</h3>
-
+            <h3>
+              {profile.monthlyAttendance}
+            </h3>
             <p>Present Days This Month</p>
-
           </div>
 
           <div className="stat-box">
-
             <h3>{emp.accountStatus}</h3>
-
             <p>Account Status</p>
-
           </div>
 
           <div className="stat-box">
-
             <h3>{emp.failedAttempts}</h3>
-
             <p>Failed Attempts</p>
-
           </div>
 
         </div>
@@ -198,25 +249,32 @@ function LogsPage() {
               <h2>Employee Information</h2>
 
               <p>
-                <strong>Employee ID:</strong> {emp.employeeId}
+                <strong>Employee ID:</strong>{" "}
+                {emp.employeeId}
               </p>
 
               <p>
-                <strong>Email:</strong> {emp.email}
+                <strong>Email:</strong>{" "}
+                {emp.email}
               </p>
 
               <p>
-                <strong>Phone:</strong> {emp.phone}
+                <strong>Phone:</strong>{" "}
+                {emp.phone}
               </p>
 
               <p>
                 <strong>Joining Date:</strong>{" "}
-                {formatJoiningDate(emp.joiningDate)}
+                {formatJoiningDate(
+                  emp.joiningDate
+                )}
               </p>
 
               <p>
                 <strong>Last Login:</strong>{" "}
-                {formatDate(profile.lastLogin)}
+                {formatDate(
+                  profile.lastLogin
+                )}
               </p>
 
             </div>
@@ -225,7 +283,10 @@ function LogsPage() {
 
               <h3>Monthly Attendance</h3>
 
-              <PieChart width={250} height={210}>
+              <PieChart
+                width={250}
+                height={210}
+              >
 
                 <Pie
                   data={pieData}
@@ -266,7 +327,9 @@ function LogsPage() {
           {shownLogs.map((log, index) => (
 
             <div
-              className={`log-row ${getStatusClass(log.status)}`}
+              className={`log-row ${getStatusClass(
+                log.status
+              )}`}
               key={index}
             >
 
@@ -279,7 +342,8 @@ function LogsPage() {
               </div>
 
               <div className="log-col confidence-col">
-                Match Confidence: {log.confidence || 0}%
+                Match Confidence:{" "}
+                {log.confidence || 0}%
               </div>
 
             </div>
@@ -291,7 +355,9 @@ function LogsPage() {
             <button
               className="show-more-btn"
               onClick={() =>
-                setShowAllLogs(!showAllLogs)
+                setShowAllLogs(
+                  !showAllLogs
+                )
               }
             >
               {showAllLogs
