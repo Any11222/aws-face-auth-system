@@ -57,10 +57,17 @@ function LogsPage() {
 
     if (!raw) return "N/A";
 
-    return new Date(raw).toLocaleString(
+    // CREATE DATE OBJECT
+    const utcDate = new Date(raw);
+
+    // ADD IST OFFSET (5 HOURS 30 MINUTES)
+    const istDate = new Date(
+      utcDate.getTime() + (5.5 * 60 * 60 * 1000)
+    );
+
+    return istDate.toLocaleString(
       "en-IN",
       {
-        timeZone: "Asia/Kolkata",
         year: "numeric",
         month: "numeric",
         day: "numeric",
