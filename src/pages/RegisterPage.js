@@ -89,15 +89,9 @@ function RegisterPage() {
             setLivenessMsg={setLivenessMsg}
           />
 
-          {/* LIVENESS STATUS BELOW CAMERA */}
+          {/* LIVENESS STATUS */}
 
-          <div
-            className="live-status"
-            style={{
-              marginTop: "18px",
-              textAlign: "center",
-            }}
-          >
+          <div className="live-status camera-status">
 
             {livenessMsg}
 
@@ -109,24 +103,11 @@ function RegisterPage() {
 
         <div className="right-panel">
 
-          <h2
-            style={{
-              marginBottom: "28px",
-            }}
-          >
+          <h2 className="auth-title">
             Employee Registration
           </h2>
 
-          {/* TWO COLUMN FORM */}
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "18px",
-              width: "100%",
-            }}
-          >
+          <div className="register-grid">
 
             <input
               type="text"
@@ -182,13 +163,11 @@ function RegisterPage() {
               }
             />
 
-            {/* DATE FIELD FULL WIDTH */}
+            <div className="full-width-date">
 
-            <div
-              style={{
-                gridColumn: "1 / span 2",
-              }}
-            >
+              <label className="date-label">
+                Joining Date
+              </label>
 
               <input
                 type="date"
@@ -205,25 +184,14 @@ function RegisterPage() {
 
           </div>
 
-          {/* REGISTER BUTTON */}
-
           <button
             onClick={registerEmployee}
-            style={{
-              marginTop: "24px",
-            }}
+            className="primary-btn"
           >
             Register Employee
           </button>
 
-          {/* RESULT STATUS */}
-
-          <div
-            className="status-box"
-            style={{
-              marginTop: "20px",
-            }}
-          >
+          <div className="status-box auth-status-box">
 
             {result}
 

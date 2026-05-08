@@ -30,7 +30,6 @@ function AuthPage() {
       return;
     }
 
-    // NO LIVENESS ATTEMPT
     if (!capturedImage) {
 
       if (!livenessAttempted) {
@@ -64,13 +63,11 @@ function AuthPage() {
 
       if (res.data.success) {
 
-        // STORE REKOGNITION ID
         localStorage.setItem(
           "loggedEmployeeId",
           res.data.rekognitionid
         );
 
-        // OPTIONAL SESSION STORAGE
         localStorage.setItem(
           "sessionValidUntil",
           res.data.sessionValidUntil
@@ -115,6 +112,8 @@ function AuthPage() {
 
       <div className="split-card">
 
+        {/* LEFT PANEL */}
+
         <div className="left-panel">
 
           <WebcamCard
@@ -126,11 +125,23 @@ function AuthPage() {
             setLivenessAttempted={setLivenessAttempted}
           />
 
+          {/* LIVENESS STATUS */}
+
+          <div className="live-status camera-status">
+
+            {livenessMsg}
+
+          </div>
+
         </div>
 
-        <div className="right-panel">
+        {/* RIGHT PANEL */}
 
-          <h2>Employee Authentication</h2>
+        <div className="right-panel auth-panel">
+
+          <h2 className="auth-title">
+            Employee Authentication
+          </h2>
 
           <input
             type="text"
@@ -141,36 +152,54 @@ function AuthPage() {
             }
           />
 
-          <div className="live-status">
-            {livenessMsg}
-          </div>
-
-          <button onClick={authenticateEmployee}>
+          <button
+            onClick={authenticateEmployee}
+            className="primary-btn"
+          >
             Authenticate Employee
           </button>
 
-          <div className="status-box">
+          <div className="status-box auth-status-box">
+
             {result}
+
           </div>
 
           {authSuccess && (
 
             <button
               onClick={() => navigate("/logs")}
-              style={{
-                marginTop: "15px",
-              }}
+              className="dashboard-btn"
             >
               Go to Dashboard
             </button>
 
           )}
 
+          {/* SECURITY INFO */}
+
+          <div className="security-info">
+
+            <div>
+              🔐 Secured by AWS AI Services
+            </div>
+
+            <div>
+              Real-Time Face Liveness Detection
+            </div>
+
+            <div>
+              Powered by Amazon Rekognition
+            </div>
+
+          </div>
+
         </div>
 
       </div>
 
     </div>
+
   );
 }
 
